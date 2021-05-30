@@ -1,0 +1,50 @@
+* Setting up WSL
+https://github.com/sirredbeard/Awesome-WSL#x-servers
+http://guix.gnu.org/en/manual/en/guix.html#System-Installation
+* Setting up Guix as a WSL distribution
+https://guix.gnu.org/guix-refcard.pdf
+https://gist.github.com/giuliano108/49ec5bd0a9339db98535bc793ceb5ab4
+** Creating a root filesystem from a docker container
+
+*** Enabling docker in Ubuntu in WSL
+
+*** Export a root fs from busybox
+
+    https://github.com/ForAllSecure/rootfs_builder
+
+#+begin_src sh
+mkdir rootfs && docker export $(docker create busybox) | tar -C rootfs -xvf -
+#+end_src
+
+** Workaround for guix pull ssl error
+
+   https://github.com/giuliano108/guix-packages/issues/6
+
+#+begin_src sh
+guix pull --url=http://git.savannah.gnu.org/git/guix.git
+#+end_src
+
+** System setup
+https://github.com/daviwil/dotfiles/blob/master/Systems.org#activating-profiles
+https://raw.githubusercontent.com/daviwil/dotfiles/master/Systems.org
+
+
+** Running an X server
+https://techcommunity.microsoft.com/t5/windows-dev-appconsult/running-wsl-gui-apps-on-windows-10/ba-p/1493242
+   
+https://itnext.io/using-windows-10-as-a-desktop-environment-for-linux-7b2d8239f2f1
+
+*** enable capture of windows key
+
+    start vcxsrv with
+
+    vcxsrv -ac -keyhook -nodecoration
+
+    -ac disables authorization
+    -keyhook passes through modifier keys
+
+*** Remap caps to esc in windows
+https://github.com/microsoft/PowerToys/releases/
+    Install powertoys and remap in keyboard manager
+    
+https://www.isunshare.com/windows-10/add-on-screen-keyboard-to-taskbar-in-windows-10.html
