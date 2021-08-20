@@ -31,7 +31,7 @@ https://raw.githubusercontent.com/daviwil/dotfiles/master/Systems.org
 
 ** Running an X server
 https://techcommunity.microsoft.com/t5/windows-dev-appconsult/running-wsl-gui-apps-on-windows-10/ba-p/1493242
-   
+
 https://itnext.io/using-windows-10-as-a-desktop-environment-for-linux-7b2d8239f2f1
 
 *** enable capture of windows key
@@ -46,5 +46,32 @@ https://itnext.io/using-windows-10-as-a-desktop-environment-for-linux-7b2d8239f2
 *** Remap caps to esc in windows
 https://github.com/microsoft/PowerToys/releases/
     Install powertoys and remap in keyboard manager
-    
+
 https://www.isunshare.com/windows-10/add-on-screen-keyboard-to-taskbar-in-windows-10.html
+
+** Boot script
+
+   #+begin_src bash
+#!/bin/sh
+export GUIX_NEW_SYSTEM=$(readlink -f /var/guix/profiles/system)
+# $GUIX_NEW_SYSTEM/boot needs this to exist even though /run is expected to be empty.
+export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+export LIBGL_ALWAYS_INDIRECT=1
+# I installed GuixSD in a proper VM and /run is not on tmpfs, so I'm not sure.
+ln -s none /run/current-system
+/var/guix/profiles/system/profile/bin/guile --no-auto-compile $GUIX_NEW_SYSTEM/boot &
+
+sleep 3
+source /etc/profile
+
+/sbin/mount.drvfs d: /mnt/d # mount external drive on startup
+
+# why are these permissions not there in the first place?
+for f in ping su sudo; do
+        chmod 4755 $(readlink -f $(which $f))
+done
+
+su -l ianfit -c emacs # only run emacs for now
+#su -l ianfit -c /home/ianfit/dotfiles/start-exwm.sh
+
+   #+end_src
