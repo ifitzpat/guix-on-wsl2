@@ -181,3 +181,59 @@ su -l ianfit -c emacs # only run emacs for now
 os
 
    #+end_src
+
+   #+begin_src sh :results output :wrap src scheme
+guix package --export-manifest
+   #+end_src
+
+   #+RESULTS:
+   #+begin_src scheme
+   ;; This "manifest" file can be passed to 'guix package -m' to reproduce
+   ;; the content of your profile.  This is "symbolic": it only specifies
+   ;; package names.  To reproduce the exact same profile, you also need to
+   ;; capture the channels being used, as returned by "guix describe".
+   ;; See the "Replicating Guix" section in the manual.
+
+   (specifications->manifest
+     (list "emacs-pdf-tools"
+	   "libgccjit"
+	   "gccmakedep"
+	   "gcc"
+	   "mu"
+	   "emacs-guix"
+	   "emacs-geiser-guile"
+	   "emacs-geiser"
+	   "youtube-dl"
+	   "extra-cmake-modules"
+	   "cmake-shared"
+	   "cmake"
+	   "unzip"
+	   "zlib"
+	   "poppler"
+	   "libpng"
+	   "node"
+	   "automake"
+	   "autobuild"
+	   "autoconf"
+	   "sqlite"
+	   "calibre"
+	   "emacs-company-lsp"
+	   "rsync"
+	   "nss-certs"
+	   "password-store"
+	   "rclone"
+	   "libvterm"
+	   "emacs-vterm"
+	   "make"
+	   "gcc-toolchain@10"
+	   "helm"
+	   "xeyes"
+	   "feh"
+	   "picom"
+	   "git"
+	   "pinentry"
+	   "gnupg"
+	   "openssh"
+	   "emacs"
+	   "openssl"))
+   #+end_src
